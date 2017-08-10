@@ -55,3 +55,4 @@ COPY start.sh /tmp/start.sh
 
 ENTRYPOINT ["/bin/bash"]
 CMD ["/tmp/start.sh"]
+ 
