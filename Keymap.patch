@@ -1,0 +1,9 @@
+--- Makefile.am 2017-01-12 23:45:07.000000000 +0000
+@@ -246,6 +246,7 @@
+     keymaps/failsafe.keymap     \
+     keymaps/de_de_qwertz.keymap \
+     keymaps/en_us_qwerty.keymap \
++    keymaps/en_gb_qwerty.keymap \
+     keymaps/fr_fr_azerty.keymap \
+     keymaps/it_it_qwerty.keymap \
+     keymaps/ja_jp_qwerty.keymap \
