@@ -28,7 +28,7 @@ EXPOSE 8080
 VOLUME /etc/guacamole
 VOLUME /file-transfer
 
-ENV VERSION=0.9.13
+ENV VERSION=0.9.11
 WORKDIR /APP/bin/remote
 RUN wget "http://archive.apache.org/dist/incubator/guacamole/${VERSION}-incubating/source/guacamole-server-${VERSION}-incubating.tar.gz" \
     && tar zxvf guacamole-server-${VERSION}-incubating.tar.gz
