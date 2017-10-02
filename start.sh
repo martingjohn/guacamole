@@ -5,4 +5,6 @@ echo "Tomcat7 start script says it fails to start even when it's successful"
 service tomcat7 start
 service guacd start
 
-sleep infinity
+tail -f /var/log/tomcat7/catalina.out &
+
+wait
