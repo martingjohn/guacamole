@@ -51,6 +51,13 @@ RUN cd /APP/bin/remote/guacamole-server-${VERSION}-incubating/src/protocols/rdp 
     && echo "GUACAMOLE_HOME=/etc/guacamole" >> /etc/default/tomcat7 \
     && chown tomcat7:tomcat7 /file-transfer
 
+HEALTHCHECK \
+    --interval=1m \
+    --timeout=3s \
+    --start-period=30s \
+    --retries=3 \
+    CMD pidof guacd > /dev/null || exit 1
+
 COPY start.sh /tmp/start.sh
 
 ENTRYPOINT ["/bin/bash"]
