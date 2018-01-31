@@ -71,6 +71,5 @@ HEALTHCHECK \
     --retries=3 \
     CMD pidof guacd > /dev/null || exit 1
 
-#ENTRYPOINT ["/bin/bash"]
 CMD ["/usr/local/bin/start.sh"]
  
