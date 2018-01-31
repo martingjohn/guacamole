@@ -1,6 +1,6 @@
 # guacamole
 
-This is a stand alone Guacamole (https://guacamole.incubator.apache.org/) build with the config saved in a configuration xml file rather than a database and UK keymap included
+This is a stand alone Guacamole (https://guacamole.apache.org/) build with the config saved in a configuration xml file rather than a database and UK keymap included
 
 Put your config XML in "config" directory and mount empty "data" directory for file transfers, in user-mapping.xml use the following
 
