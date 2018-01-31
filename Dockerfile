@@ -59,7 +59,7 @@ RUN cd /APP/bin/remote/guacamole-server-${VERSION}-incubating/src/protocols/rdp 
     && echo "GUACAMOLE_HOME=/etc/guacamole" >> /etc/default/tomcat7 \
     && chown tomcat7:tomcat7 /file-transfer \
     && rm -rf /etc/sv/getty-5 \
-    && rm -rf /etc/rsyslog.d /etc/rsyslog.conf \
+    && rm -rf /etc/rsyslog.d \
     && chmod +x /usr/local/bin/start.sh \
     && chmod +x /etc/sv/*/run \
     && ln -s /etc/sv/* /etc/service
