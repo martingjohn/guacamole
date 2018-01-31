@@ -31,12 +31,12 @@ EXPOSE 8080
 VOLUME /etc/guacamole
 VOLUME /file-transfer
 
-ENV VERSION=0.9.13
+ENV VERSION=0.9.14
 WORKDIR /APP/bin/remote
-RUN wget "http://archive.apache.org/dist/incubator/guacamole/${VERSION}-incubating/source/guacamole-server-${VERSION}-incubating.tar.gz" \
-    && tar zxvf guacamole-server-${VERSION}-incubating.tar.gz
+RUN wget "http://archive.apache.org/dist/guacamole/${VERSION}/source/guacamole-server-${VERSION}.tar.gz" \
+    && tar zxvf guacamole-server-${VERSION}.tar.gz
 
-COPY en_gb_qwerty.keymap /APP/bin/remote/guacamole-server-${VERSION}-incubating/src/protocols/rdp/keymaps/en_gb_qwerty.keymap
+COPY en_gb_qwerty.keymap /APP/bin/remote/guacamole-server-${VERSION}/src/protocols/rdp/keymaps/en_gb_qwerty.keymap
 COPY Keymap.patch /tmp/Keymap.patch
 COPY rsyslog.conf /etc/rsyslog.conf
 COPY start.sh /usr/local/bin/start.sh
@@ -44,9 +44,9 @@ COPY rsyslog.init /etc/sv/rsyslog/run
 COPY tomcat.init /etc/sv/tomcat/run
 COPY guacd.init /etc/sv/guacd/run
 
-RUN cd /APP/bin/remote/guacamole-server-${VERSION}-incubating/src/protocols/rdp \
+RUN cd /APP/bin/remote/guacamole-server-${VERSION}/src/protocols/rdp \
     && patch -b < /tmp/Keymap.patch \
-    && cd /APP/bin/remote/guacamole-server-${VERSION}-incubating \
+    && cd /APP/bin/remote/guacamole-server-${VERSION}\
     && ./configure --with-init-dir=/etc/init.d \
     && make \
     && make install \
@@ -54,12 +54,12 @@ RUN cd /APP/bin/remote/guacamole-server-${VERSION}-incubating/src/protocols/rdp 
     && mkdir /usr/lib/x86_64-linux-gnu/freerdp \
     && ln -s /usr/local/lib/freerdp/*.so /usr/lib/x86_64-linux-gnu/freerdp/. \
     && cd /APP/bin/remote \
-    && wget http://archive.apache.org/dist/incubator/guacamole/${VERSION}-incubating/binary/guacamole-${VERSION}-incubating.war \
-    && ln -s /APP/bin/remote/guacamole-${VERSION}-incubating.war /var/lib/tomcat7/webapps/remote.war \
+    && wget http://archive.apache.org/dist/guacamole/${VERSION}/binary/guacamole-${VERSION}.war \
+    && ln -s /APP/bin/remote/guacamole-${VERSION}.war /var/lib/tomcat7/webapps/remote.war \
     && echo "GUACAMOLE_HOME=/etc/guacamole" >> /etc/default/tomcat7 \
     && chown tomcat7:tomcat7 /file-transfer \
     && rm -rf /etc/sv/getty-5 \
-    && rm -rf /etc/rsyslog.d /etc/rsyslog.conf \
+    && rm -rf /etc/rsyslog.d \
     && chmod +x /usr/local/bin/start.sh \
     && chmod +x /etc/sv/*/run \
     && ln -s /etc/sv/* /etc/service
@@ -71,6 +71,6 @@ HEALTHCHECK \
     --retries=3 \
     CMD pidof guacd > /dev/null || exit 1
 
-ENTRYPOINT ["/bin/bash"]
+#ENTRYPOINT ["/bin/bash"]
 CMD ["/usr/local/bin/start.sh"]
  
