@@ -1,12 +1,12 @@
 #!/bin/bash
 
-DEFAULT=/etc/default/tomcat7
+DEFAULT=/etc/default/tomcat8
 JAVA_HOME=/usr/lib/jvm/default-java
-CATALINA_HOME=/usr/share/tomcat7
-CATALINA_BASE=/var/lib/tomcat7
+CATALINA_HOME=/usr/share/tomcat8
+CATALINA_BASE=/var/lib/tomcat8
 JAVA_OPTS="-Djava.awt.headless=true -Xmx128M"
-CATALINA_PID="/var/run/tomcat7.pid"
-CATALINA_TMPDIR==/tmp/tomcat7-tomcat7-tmp
+CATALINA_PID="/var/run/tomcat8.pid"
+CATALINA_TMPDIR==/tmp/tomcat8-tomcat8-tmp
 CATALINA_SH="$CATALINA_HOME/bin/catalina.sh"
 JSSE_HOME="${JAVA_HOME}/jre/"
 

@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM debian:9.3
 
 RUN apt-get update && apt-get install -y \
             automake \
@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
             libfreerdp-dev \
             libossp-uuid-dev \
             libpango1.0-dev \
-            libpng12-dev \
+            libpng-dev \
             libpulse-dev \
             libssh2-1-dev \
             libssl-dev \
@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
             parallel \
             rsyslog \
             runit \
-            tomcat7 \
+            tomcat8 \
             wget \
     && rm -rf /var/lib/apt/lists/*
 
@@ -55,9 +55,9 @@ RUN cd /APP/bin/remote/guacamole-server-${VERSION}/src/protocols/rdp \
     && ln -s /usr/local/lib/freerdp/*.so /usr/lib/x86_64-linux-gnu/freerdp/. \
     && cd /APP/bin/remote \
     && wget http://archive.apache.org/dist/guacamole/${VERSION}/binary/guacamole-${VERSION}.war \
-    && ln -s /APP/bin/remote/guacamole-${VERSION}.war /var/lib/tomcat7/webapps/remote.war \
-    && echo "GUACAMOLE_HOME=/etc/guacamole" >> /etc/default/tomcat7 \
-    && chown tomcat7:tomcat7 /file-transfer \
+    && ln -s /APP/bin/remote/guacamole-${VERSION}.war /var/lib/tomcat8/webapps/remote.war \
+    && echo "GUACAMOLE_HOME=/etc/guacamole" >> /etc/default/tomcat8 \
+    && chown tomcat8:tomcat8 /file-transfer \
     && rm -rf /etc/sv/getty-5 \
     && rm -rf /etc/rsyslog.d \
     && chmod +x /usr/local/bin/start.sh \
