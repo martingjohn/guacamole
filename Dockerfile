@@ -57,6 +57,7 @@ RUN cd /APP/bin/remote/guacamole-server-${VERSION}/src/protocols/rdp \
     && wget http://archive.apache.org/dist/guacamole/${VERSION}/binary/guacamole-${VERSION}.war \
     && ln -s /APP/bin/remote/guacamole-${VERSION}.war /var/lib/tomcat7/webapps/remote.war \
     && echo "GUACAMOLE_HOME=/etc/guacamole" >> /etc/default/tomcat7 \
+    && mkdir -p /file-transfer \
     && chown tomcat7:tomcat7 /file-transfer \
     && rm -rf /etc/sv/getty-5 \
     && rm -rf /etc/rsyslog.d \
