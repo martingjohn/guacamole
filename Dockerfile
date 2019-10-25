@@ -51,8 +51,6 @@ RUN cd /APP/bin/remote/guacamole-server-${VERSION}/src/protocols/rdp \
     && make \
     && make install \
     && ldconfig  \
-    && mkdir /usr/lib/x86_64-linux-gnu/freerdp \
-    && ln -s /usr/local/lib/freerdp/*.so /usr/lib/x86_64-linux-gnu/freerdp/. \
     && cd /APP/bin/remote \
     && wget http://archive.apache.org/dist/guacamole/${VERSION}/binary/guacamole-${VERSION}.war \
     && ln -s /APP/bin/remote/guacamole-${VERSION}.war /var/lib/tomcat7/webapps/remote.war \
