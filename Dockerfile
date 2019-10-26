@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y \
             automake \
@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
             libfreerdp-dev \
             libossp-uuid-dev \
             libpango1.0-dev \
-            libpng12-dev \
+            libpng-dev \
             libpulse-dev \
             libssh2-1-dev \
             libssl-dev \
@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
             parallel \
             rsyslog \
             runit \
-            tomcat7 \
+            tomcat8 \
             wget \
     && rm -rf /var/lib/apt/lists/*
 
@@ -31,13 +31,11 @@ EXPOSE 8080
 VOLUME /etc/guacamole
 VOLUME /file-transfer
 
-ENV VERSION=0.9.14
+ENV VERSION=1.0.0
 WORKDIR /APP/bin/remote
 RUN wget "http://archive.apache.org/dist/guacamole/${VERSION}/source/guacamole-server-${VERSION}.tar.gz" \
     && tar zxvf guacamole-server-${VERSION}.tar.gz
 
-COPY en_gb_qwerty.keymap /APP/bin/remote/guacamole-server-${VERSION}/src/protocols/rdp/keymaps/en_gb_qwerty.keymap
-COPY Keymap.patch /tmp/Keymap.patch
 COPY rsyslog.conf /etc/rsyslog.conf
 COPY start.sh /usr/local/bin/start.sh
 COPY rsyslog.init /etc/sv/rsyslog/run
@@ -45,20 +43,17 @@ COPY tomcat.init /etc/sv/tomcat/run
 COPY guacd.init /etc/sv/guacd/run
 
 RUN cd /APP/bin/remote/guacamole-server-${VERSION}/src/protocols/rdp \
-    && patch -b < /tmp/Keymap.patch \
     && cd /APP/bin/remote/guacamole-server-${VERSION}\
     && ./configure --with-init-dir=/etc/init.d \
     && make \
     && make install \
     && ldconfig  \
-    && mkdir /usr/lib/x86_64-linux-gnu/freerdp \
-    && ln -s /usr/local/lib/freerdp/*.so /usr/lib/x86_64-linux-gnu/freerdp/. \
     && cd /APP/bin/remote \
     && wget http://archive.apache.org/dist/guacamole/${VERSION}/binary/guacamole-${VERSION}.war \
-    && ln -s /APP/bin/remote/guacamole-${VERSION}.war /var/lib/tomcat7/webapps/remote.war \
-    && echo "GUACAMOLE_HOME=/etc/guacamole" >> /etc/default/tomcat7 \
+    && ln -s /APP/bin/remote/guacamole-${VERSION}.war /var/lib/tomcat8/webapps/remote.war \
+    && echo "GUACAMOLE_HOME=/etc/guacamole" >> /etc/default/tomcat8 \
     && mkdir -p /file-transfer \
-    && chown tomcat7:tomcat7 /file-transfer \
+    && chown tomcat8:tomcat8 /file-transfer \
     && rm -rf /etc/sv/getty-5 \
     && rm -rf /etc/rsyslog.d \
     && chmod +x /usr/local/bin/start.sh \
@@ -73,4 +68,3 @@ HEALTHCHECK \
     CMD pidof guacd > /dev/null || exit 1
 
 CMD ["/usr/local/bin/start.sh"]
- 
