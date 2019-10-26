@@ -31,13 +31,11 @@ EXPOSE 8080
 VOLUME /etc/guacamole
 VOLUME /file-transfer
 
-ENV VERSION=0.9.14
+ENV VERSION=1.0.0
 WORKDIR /APP/bin/remote
 RUN wget "http://archive.apache.org/dist/guacamole/${VERSION}/source/guacamole-server-${VERSION}.tar.gz" \
     && tar zxvf guacamole-server-${VERSION}.tar.gz
 
-COPY en_gb_qwerty.keymap /APP/bin/remote/guacamole-server-${VERSION}/src/protocols/rdp/keymaps/en_gb_qwerty.keymap
-COPY Keymap.patch /tmp/Keymap.patch
 COPY rsyslog.conf /etc/rsyslog.conf
 COPY start.sh /usr/local/bin/start.sh
 COPY rsyslog.init /etc/sv/rsyslog/run
@@ -45,14 +43,11 @@ COPY tomcat.init /etc/sv/tomcat/run
 COPY guacd.init /etc/sv/guacd/run
 
 RUN cd /APP/bin/remote/guacamole-server-${VERSION}/src/protocols/rdp \
-    && patch -b < /tmp/Keymap.patch \
     && cd /APP/bin/remote/guacamole-server-${VERSION}\
     && ./configure --with-init-dir=/etc/init.d \
     && make \
     && make install \
     && ldconfig  \
-    && mkdir /usr/lib/x86_64-linux-gnu/freerdp \
-    && ln -s /usr/local/lib/freerdp/*.so /usr/lib/x86_64-linux-gnu/freerdp/. \
     && cd /APP/bin/remote \
     && wget http://archive.apache.org/dist/guacamole/${VERSION}/binary/guacamole-${VERSION}.war \
     && ln -s /APP/bin/remote/guacamole-${VERSION}.war /var/lib/tomcat7/webapps/remote.war \
